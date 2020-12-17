@@ -15,6 +15,7 @@ public class Enemigo : MonoBehaviour
     float vida;
     [SerializeField]
     float velocidad;
+    float velocidadOriginal;
     [SerializeField]
     float distanciaCambioPunto;
     [SerializeField]
@@ -26,6 +27,7 @@ public class Enemigo : MonoBehaviour
     void Start()
     {
         puntoSiguiente = 0;
+        velocidadOriginal = velocidad;
         myRb = GetComponent<Rigidbody>();
         castillo = GameObject.Find("CastilloDelJugador").GetComponent<CastilloJugador>();
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
@@ -38,7 +40,7 @@ public class Enemigo : MonoBehaviour
     void Update()
     {
         AsignarPuntoRuta();
-        Movimiento();
+        MovimientoYMirada();
     }
 
     void AsignarPuntoRuta()
@@ -49,9 +51,10 @@ public class Enemigo : MonoBehaviour
             puntoSiguiente++;
         }
     }
-    void Movimiento()
+    void MovimientoYMirada()
     {
         transform.position = Vector3.MoveTowards(transform.position, puntosRuta[puntoSiguiente].position,velocidad * 5 * Time.deltaTime);
+        transform.LookAt(puntosRuta[puntoSiguiente]);
     }
 
     public void RecivirDaño(float daño)
@@ -62,6 +65,15 @@ public class Enemigo : MonoBehaviour
             DarOro();
             Destroy(gameObject);
         }
+    }
+
+    public void Relentizar(float relentizar)
+    {
+        velocidad /= relentizar;
+    }
+    public void RecuperarVelocidad()
+    {
+        velocidad = velocidadOriginal;
     }
 
     void DarOro()

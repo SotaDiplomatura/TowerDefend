@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BalaSoplete : MonoBehaviour
 {
-    [SerializeField]
-    float dañoPorSegundo;
+    public float dañoPorSegundo;
     public float tiempoDisparando;
 
     void Start()

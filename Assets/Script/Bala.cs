@@ -8,14 +8,17 @@ public class Bala : MonoBehaviour
     [SerializeField]
     float velocidad;
     [SerializeField]
-    float daño;
+    public float daño;
 
     void Update()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, objetivo.position, velocidad * Time.deltaTime);
+    {        
         if(objetivo == null)
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, objetivo.position, velocidad * Time.deltaTime);
         }
     }
 
