@@ -5,7 +5,12 @@ using UnityEngine;
 public class GeneradorDeOrdas : MonoBehaviour
 {
     GameController gameController;
-    int enemigosEnEscena;
+    [SerializeField]
+    GameObject[] enemigosFuego;
+    [SerializeField]
+    GameObject[] enemigosAgua;
+    [SerializeField]
+    GameObject enemigosPlanta;
 
     void Start()
     {

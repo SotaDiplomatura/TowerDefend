@@ -502,3 +502,4 @@ public class GameController : MonoBehaviour
 
 public enum TipoTorreta { Simple, Multiple, Soplete, Escarcha };
 public enum NivelTorreta { Nivel1, Nivel2, Nivel3, Nivel4 };
+public enum EstiloEnemigo { Fuerte, Rapido, Tanque};
