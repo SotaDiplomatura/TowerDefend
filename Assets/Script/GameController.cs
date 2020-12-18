@@ -24,10 +24,15 @@ public class GameController : MonoBehaviour
     [Header("Identificador")]
     public int identificadorDeTorretas;
     public int mirarIdentificador;
+    [Header("Variables Enemigos")]
+    [SerializeField]
+    GameObject botonOrdas;
+    public int enemigosEnEscena;
     //Estados
     [Header("Estados")]
-    public bool desplegando;
+    public bool desplegandoTorretas;
     public bool pausa;
+    public bool desplegandoEnemigos;
     //Vida Y Defensa
     [Header("Vida y Defensa")]
     public Slider sliderVida;
@@ -40,6 +45,8 @@ public class GameController : MonoBehaviour
     //Oro
     [Header("Oro")]
     public int oro;
+    [SerializeField]
+    Text faltaOro;
     [SerializeField]
     Text textoOro;
     //Torretas Seleccionadas
@@ -107,6 +114,7 @@ public class GameController : MonoBehaviour
         animacionPanelTorretas = GameObject.Find("PanelTorretas").GetComponent<Animator>();
         animacionPanelUpTorretas = GameObject.Find("UPTorretas").GetComponent<Animator>();
         castilloJugador = GameObject.Find("CastilloDelJugador").GetComponent<CastilloJugador>();
+        faltaOro = GameObject.Find("FaltaOro").GetComponent<Text>();
     }
 
     void DarValorAlasTorretas()
@@ -131,7 +139,7 @@ public class GameController : MonoBehaviour
 
     void Estados()
     {
-        if(desplegando)
+        if(desplegandoTorretas)
         {
             ColocarTorretas();
         }
@@ -148,6 +156,14 @@ public class GameController : MonoBehaviour
         {
             Time.timeScale = 1;
             panelPausa.SetActive(false);
+        }
+        if(desplegandoEnemigos)
+        {
+            botonOrdas.SetActive(false);
+        }
+        else
+        {
+            botonOrdas.SetActive(true);
         }
     }
 
@@ -234,7 +250,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            print("te falta oro");
+            StartCoroutine("ActivarDesactivarTextoFaltaOro");
         }
 
     }
@@ -258,14 +274,14 @@ public class GameController : MonoBehaviour
 
     public void ActivarDesactivarDespliegue()
     {
-        if(desplegando)
+        if(desplegandoTorretas)
         {
-            desplegando = false;
+            desplegandoTorretas = false;
             animacionPanelTorretas.SetBool("Desplegado", false);
         }
         else
         {
-            desplegando = true;
+            desplegandoTorretas = true;
             animacionPanelTorretas.SetBool("Desplegado", true);
         }
 
@@ -273,7 +289,7 @@ public class GameController : MonoBehaviour
 
     public void ActivarDesactivarPanelUpTorretas()
     {
-        if(!desplegando)
+        if(!desplegandoTorretas)
         {
             if (desplegadoUpTorreta)
             {
@@ -315,8 +331,16 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            print("te falta oro");
+            StartCoroutine("ActivarDesactivarTextoFaltaOro");
         }
+    }
+
+    IEnumerator ActivarDesactivarTextoFaltaOro()
+    {
+        faltaOro.enabled = true;
+        yield return new WaitForSeconds(1f);
+        faltaOro.enabled = false;
+        DesactivarCorrutina("ActivarDesactivarTextoFaltaOro");
     }
 
     void DarValorUpTorretas()
@@ -504,6 +528,11 @@ public class GameController : MonoBehaviour
             torretaSelecionada = 3;
             boolTorretaLatigo = true;
         }
+    }
+
+    void DesactivarCorrutina(string nombreCorrutina)
+    {
+        StopCoroutine(nombreCorrutina);
     }
 
     public void Salir()

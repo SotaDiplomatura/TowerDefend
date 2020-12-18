@@ -36,7 +36,7 @@ public class BaseTorretas : MonoBehaviour
 
     void DetectarColocando()
     {
-        colocando = gameController.desplegando;
+        colocando = gameController.desplegandoTorretas;
         if(colocando)
         {
             DetectarDisponible();

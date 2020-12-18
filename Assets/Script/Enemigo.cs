@@ -55,6 +55,7 @@ public class Enemigo : MonoBehaviour
         {
             puntosRuta[i] = GameObject.Find("Punto" + i).GetComponent<Transform>();
         }
+        gameController.enemigosEnEscena++;
     }
 
     void AjustarEstadicticasDeElite()
@@ -111,6 +112,7 @@ public class Enemigo : MonoBehaviour
         {
             DarOro();
             gameController.puntos++;
+            gameController.enemigosEnEscena--;
             Destroy(gameObject);
         }
     }
@@ -177,6 +179,7 @@ public class Enemigo : MonoBehaviour
         if(collision.gameObject.CompareTag("Castillo"))
         {
             castillo.PerderVidaDefensa(daño);
+            gameController.enemigosEnEscena--;
             Destroy(gameObject);
         }
     }
