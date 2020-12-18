@@ -34,6 +34,8 @@ public class Torretas : MonoBehaviour
     [Header("Variables exclusiva torreta escarcha")]
     [SerializeField]
     float relentizar;
+    [SerializeField]
+    float tiempoRelentizado;
 
     [Header("Variables Comunes")]
     [SerializeField]
@@ -44,8 +46,8 @@ public class Torretas : MonoBehaviour
     float comprobarObjetivo;
 
     float cadenciaDisparo;
-    public int nivel;
-    int nivelActual;
+    public int nivel = 0;
+    int nivelActual = -1;
 
     [Header("Balas")]
     [SerializeField]
@@ -55,9 +57,8 @@ public class Torretas : MonoBehaviour
     void Start()
     {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
-        gameController.numeroTorreta++;
+        identificador = gameController.identificadorDeTorretas;
         gameController.torretasEnEscena.Add(gameObject);
-        nivelActual = nivel;
         enemigosEnRango = new List<GameObject>();
         objetivo = new List<Transform>();
         cadenciaDisparo = 0;
@@ -135,14 +136,15 @@ public class Torretas : MonoBehaviour
         {
             daño = 1.5f;
             tiempoDisparando = 2;
-            velocidadAtaque = 1 / 3;
+            velocidadAtaque = 1 / 3f;
             rango = 7;
         }
         else if (decirNivel == NivelTorreta.Nivel1)
         {
             tiempoDisparando = 2;
-            relentizar = 1.5f;
-            velocidadAtaque = 1 / 3;
+            relentizar = 1.2f;
+            tiempoRelentizado = 0.7f;
+            velocidadAtaque = 1/3f;
             rango = 7;
         }
         //Level 2
@@ -163,14 +165,15 @@ public class Torretas : MonoBehaviour
         {
             daño = 3f;
             tiempoDisparando = 3;
-            velocidadAtaque = 1 / 4;
+            velocidadAtaque = 1 / 4f;
             rango = 7;
         }
         else if (decirNivel == NivelTorreta.Nivel2)
         {
             tiempoDisparando = 2;
-            relentizar = 2f;
-            velocidadAtaque = 1 / 3;
+            relentizar = 1.3f;
+            tiempoRelentizado = 1f;
+            velocidadAtaque = 1 / 3f;
             rango = 7;
         }
         //Level 3
@@ -191,14 +194,15 @@ public class Torretas : MonoBehaviour
         {
             daño = 7f;
             tiempoDisparando = 4;
-            velocidadAtaque = 1 / 5;
+            velocidadAtaque = 1 / 5f;
             rango = 7;
         }
         else if (decirNivel == NivelTorreta.Nivel3)
         {
             tiempoDisparando = 3;
-            relentizar = 2f;
-            velocidadAtaque = 1 / 4;
+            relentizar = 1.4f;
+            tiempoRelentizado = 1.2f;
+            velocidadAtaque = 1 / 4f;
             rango = 7;
         }
         //Level 4
@@ -219,14 +223,15 @@ public class Torretas : MonoBehaviour
         {
             daño = 14f;
             tiempoDisparando = 5;
-            velocidadAtaque = 1 / 5;
+            velocidadAtaque = 1 / 5f;
             rango = 7;
         }
         else if (decirNivel == NivelTorreta.Nivel4)
         {
             tiempoDisparando = 3;
-            relentizar = 3f;
-            velocidadAtaque = 1 / 4;
+            relentizar = 1.6f;
+            tiempoRelentizado = 1.5f;
+            velocidadAtaque = 1 / 4f;
             rango = 7;
         }
     }
@@ -298,6 +303,7 @@ public class Torretas : MonoBehaviour
     {
         bala.gameObject.GetComponent<BalaEscarcha>().relentizar = relentizar;
         bala.gameObject.GetComponent<BalaEscarcha>().tiempoDisparando = tiempoDisparando;
+        bala.gameObject.GetComponent<BalaEscarcha>().duracionRelentizado = tiempoRelentizado;
         Instantiate(bala, cañon.position, cañon.rotation, cañon);
     }
 

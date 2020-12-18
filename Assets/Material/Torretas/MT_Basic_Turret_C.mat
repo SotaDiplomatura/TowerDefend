@@ -207,7 +207,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Flickering: 1
-    - _Flickeringintensity: 1
+    - _Flickeringintensity: 20
     - _Float0: 1
     - _Float1: 0.9034211
     - _Fresnel: 0

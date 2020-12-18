@@ -6,6 +6,7 @@ public class BalaEscarcha : MonoBehaviour
 {
     public float relentizar;
     public float tiempoDisparando;
+    public float duracionRelentizado;
 
     void Start()
     {
@@ -16,15 +17,8 @@ public class BalaEscarcha : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemigo"))
         {
+            other.gameObject.GetComponent<Enemigo>().duracionRelentizado = duracionRelentizado;
             other.gameObject.GetComponent<Enemigo>().Relentizar(relentizar);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemigo"))
-        {
-            other.gameObject.GetComponent<Enemigo>().RecuperarVelocidad();
         }
     }
 

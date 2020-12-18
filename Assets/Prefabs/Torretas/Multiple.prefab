@@ -87,9 +87,10 @@ MonoBehaviour:
   enemigosMaximos: 2
   tiempoDisparando: 0
   relentizar: 0
+  tiempoRelentizado: 0
   velocidadAtaque: 1
   rango: 7
-  comprobarObjetivo: 0.2
+  comprobarObjetivo: 0.0001
   nivel: 0
   bala: {fileID: 8255834041707546745, guid: 60b518553739ca643b565ba09c0a5bc8, type: 3}
 --- !u!1 &952783352

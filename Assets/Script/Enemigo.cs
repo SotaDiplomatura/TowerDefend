@@ -28,6 +28,7 @@ public class Enemigo : MonoBehaviour
     float vida;
     [SerializeField]
     float velocidad;
+    public float duracionRelentizado;
     float velocidadOriginal;
     [SerializeField]
     float distanciaCambioPunto;
@@ -35,7 +36,7 @@ public class Enemigo : MonoBehaviour
     int oroQueDa;
 
     int puntoSiguiente;
-
+    
     Vector3 distanciaAlSiguientePunto;
     void Start()
     {
@@ -74,6 +75,7 @@ public class Enemigo : MonoBehaviour
         }
         else
         {
+            distanciaCambioPunto = 1.015f;
             daño *= 2;
             vida *= 2;
             velocidad /= 2;
@@ -108,6 +110,7 @@ public class Enemigo : MonoBehaviour
         if(vida <= 0)
         {
             DarOro();
+            gameController.puntos++;
             Destroy(gameObject);
         }
     }
@@ -115,6 +118,7 @@ public class Enemigo : MonoBehaviour
     public void Relentizar(float relentizar)
     {
         velocidad /= relentizar;
+        Invoke("RecuperarVelocidad", duracionRelentizado);
     }
     public void RecuperarVelocidad()
     {

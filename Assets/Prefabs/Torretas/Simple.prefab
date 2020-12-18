@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tipo: 0
   decirNivel: 0
+  identificador: 0
   _enemigos: []
   enemigosEnRango: []
   objetivo: []
@@ -86,9 +87,10 @@ MonoBehaviour:
   enemigosMaximos: 0
   tiempoDisparando: 0
   relentizar: 0
+  tiempoRelentizado: 0
   velocidadAtaque: 1
   rango: 7
-  comprobarObjetivo: 0.2
+  comprobarObjetivo: 0.0001
   nivel: 0
   bala: {fileID: 8255834041707546745, guid: cd56f3bf03fe51d41b2f184e7983b1c3, type: 3}
 --- !u!1 &952783352

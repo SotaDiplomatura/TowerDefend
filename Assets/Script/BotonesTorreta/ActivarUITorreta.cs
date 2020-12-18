@@ -12,13 +12,19 @@ public class ActivarUITorreta : MonoBehaviour
     void Start()
     {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
-        scripTorretas = GetComponentInParent<Torretas>().GetComponent<Torretas>();
-        identificador = scripTorretas.identificador;
+        scripTorretas = transform.parent.GetComponent<Torretas>();
     }
-
+    private void Update()
+    {
+        if (identificador != scripTorretas.identificador)
+        {
+            identificador = scripTorretas.identificador;
+        }
+    }
     void OnMouseDown()
     {
+        gameController.mirarIdentificador = identificador;
         gameController.ActivarDesactivarPanelUpTorretas();
-        gameController.identificadorDeTorretas = identificador;
+        print(identificador);
     }
 }

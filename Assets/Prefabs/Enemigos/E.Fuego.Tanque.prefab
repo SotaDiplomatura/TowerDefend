@@ -141,8 +141,8 @@ MonoBehaviour:
   - {fileID: 0}
   "da\xF1o": 2
   vida: 10
-  velocidad: 0.25
-  distanciaCambioPunto: 1.015
+  velocidad: 0.75
+  distanciaCambioPunto: 0.1
   oroQueDa: 10
 --- !u!1 &3694916701187205852
 GameObject:

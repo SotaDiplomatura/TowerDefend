@@ -141,7 +141,7 @@ MonoBehaviour:
   - {fileID: 0}
   "da\xF1o": 2
   vida: 2
-  velocidad: 0.75
+  velocidad: 0.6
   distanciaCambioPunto: 0.1
   oroQueDa: 5
 --- !u!1 &8572276862614391205

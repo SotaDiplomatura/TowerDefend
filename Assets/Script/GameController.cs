@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Puntos Ganados")]
+    public int puntos;
     //Panel comprar torretas
     Animator animacionPanelTorretas;
     //Panel levelUp torretas
     Animator animacionPanelUpTorretas;
     bool desplegadoUpTorreta = false;
-    public int identificadorDeTorretas;
+    [Header("Panel pausa")]
     //Panel Pausa
     public GameObject panelPausa;
     //Castillo del jugador
@@ -19,7 +21,9 @@ public class GameController : MonoBehaviour
     //Torretas
     [Header("Torretas En Escena")]
     public List<GameObject> torretasEnEscena;
-    public int numeroTorreta;
+    [Header("Identificador")]
+    public int identificadorDeTorretas;
+    public int mirarIdentificador;
     //Estados
     [Header("Estados")]
     public bool desplegando;
@@ -98,7 +102,7 @@ public class GameController : MonoBehaviour
     LayerMask _bases;
     void Start()
     {
-        numeroTorreta = 0;
+        identificadorDeTorretas = -1;
         DarValorAlasTorretas();
         animacionPanelTorretas = GameObject.Find("PanelTorretas").GetComponent<Animator>();
         animacionPanelUpTorretas = GameObject.Find("UPTorretas").GetComponent<Animator>();
@@ -224,6 +228,7 @@ public class GameController : MonoBehaviour
     {
         if (oro >= precios[torretaSelecionada])
         {
+            identificadorDeTorretas++;
             Instantiate(Torreta, baseTorreta, Quaternion.identity, pTorretas.transform);
             oro -= precios[torretaSelecionada];
         }
@@ -290,20 +295,20 @@ public class GameController : MonoBehaviour
     {
         if(oro >= precioFinalSubirNivel)
         {
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
             {
-                torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().nivel++;
-                torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel = NivelTorreta.Nivel2;
+                torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().nivel++;
+                torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel = NivelTorreta.Nivel2;
             }
-            else if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
+            else if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
             {
-                torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().nivel++;
-                torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel = NivelTorreta.Nivel3;
+                torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().nivel++;
+                torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel = NivelTorreta.Nivel3;
             }
-            else if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
+            else if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
             {
-                torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().nivel++;
-                torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel = NivelTorreta.Nivel4;
+                torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().nivel++;
+                torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel = NivelTorreta.Nivel4;
             }
             oro -= precioFinalSubirNivel;
             DarValorUpTorretas();
@@ -316,101 +321,102 @@ public class GameController : MonoBehaviour
 
     void DarValorUpTorretas()
     {
-        if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().tipo == TipoTorreta.Simple)
+        if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().tipo == TipoTorreta.Simple)
         {
             imagenBotonSubirNivel.sprite = imagenesTorretas[0];
             imagenBotonDestruir.sprite = imagenesTorretas[0];
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorSim[0].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorSim[0];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorSim[1].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorSim[1];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorSim[2].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorSim[2];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
             {
                 textoPrecioSubirNivel.text = "∞∞";
                 precioFinalSubirNivel = oro + 2;
             }
         }
-        if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().tipo == TipoTorreta.Multiple)
+        if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().tipo == TipoTorreta.Multiple)
         {
             imagenBotonSubirNivel.sprite = imagenesTorretas[1];
             imagenBotonDestruir.sprite = imagenesTorretas[1];
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorMul[0].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorMul[0];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorMul[1].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorMul[1];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorMul[2].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorMul[2];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
             {
                 textoPrecioSubirNivel.text = "∞∞";
                 precioFinalSubirNivel = oro + 2;
             }
         }
-        if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().tipo == TipoTorreta.Soplete)
+        if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().tipo == TipoTorreta.Soplete)
         {
             imagenBotonSubirNivel.sprite = imagenesTorretas[2];
             imagenBotonDestruir.sprite = imagenesTorretas[2];
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorSop[0].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorSop[0];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorSop[1].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorSop[1];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorSop[2].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorSop[2];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
             {
                 textoPrecioSubirNivel.text = "∞∞";
                 precioFinalSubirNivel = oro + 2;
             }
         }
-        if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().tipo == TipoTorreta.Escarcha)
+        if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().tipo == TipoTorreta.Escarcha)
         {
+            print("ee");
             imagenBotonSubirNivel.sprite = imagenesTorretas[3];
             imagenBotonDestruir.sprite = imagenesTorretas[3];
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel1)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorEsc[0].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorEsc[0];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel2)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorEsc[1].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorEsc[1];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel3)
             {
                 textoPrecioSubirNivel.text = precioSubirNivelTorEsc[2].ToString();
                 precioFinalSubirNivel = precioSubirNivelTorEsc[2];
             }
-            if (torretasEnEscena[identificadorDeTorretas].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
+            if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
             {
                 textoPrecioSubirNivel.text = "∞∞";
                 precioFinalSubirNivel = oro + 2;
@@ -419,8 +425,13 @@ public class GameController : MonoBehaviour
     }
     public void DestruirTorreta()
     {
-        Destroy(torretasEnEscena[identificadorDeTorretas]);
-        torretasEnEscena.Remove(torretasEnEscena[identificadorDeTorretas]);
+        Destroy(torretasEnEscena[mirarIdentificador]);
+        torretasEnEscena.Remove(torretasEnEscena[mirarIdentificador]);
+        for(int i=0;i<torretasEnEscena.Count;i++)
+        {
+            torretasEnEscena[i].GetComponent<Torretas>().identificador = i;
+            print("i"+i);
+        }
         desplegadoUpTorreta = false;
         animacionPanelUpTorretas.SetBool("Desplegado", false);
         Invoke("DejarVerBotonPanelTorretas", 0.2f);
