@@ -10,11 +10,13 @@ public class Enemigo : MonoBehaviour
     Renderer myRenderer;
     CastilloJugador castillo;
     GameController gameController;
+    AudioController audioController;
 
     [SerializeField]
     EstiloEnemigo estiloEnemigo;
     [SerializeField]
-    bool elite;
+    TipoEnemigo tipoEnemigo;
+    public bool elite;
     [SerializeField]
     float tiempoQueDuraHabilidad;
     [SerializeField]
@@ -24,16 +26,14 @@ public class Enemigo : MonoBehaviour
     public Transform[] puntosRuta;
     [SerializeField]
     int daño;
-    [SerializeField]
-    float vida;
+    public float vida;
     [SerializeField]
     float velocidad;
     public float duracionRelentizado;
     float velocidadOriginal;
     [SerializeField]
     float distanciaCambioPunto;
-    [SerializeField]
-    int oroQueDa;
+    public int oroQueDa;
 
     int puntoSiguiente;
     
@@ -43,6 +43,8 @@ public class Enemigo : MonoBehaviour
         myRb = GetComponent<Rigidbody>();
         myCollider = GetComponent<Collider>();
         myRenderer = GetComponent<Renderer>();
+        audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
+        AjustarVida();
         if (elite)
         {
             AjustarEstadicticasDeElite();
@@ -58,29 +60,68 @@ public class Enemigo : MonoBehaviour
         gameController.enemigosEnEscena++;
     }
 
+    void AjustarVida()
+    {
+        if (estiloEnemigo == EstiloEnemigo.Fuerte)
+        {
+            if (tipoEnemigo == TipoEnemigo.Planta)
+            {
+                vida = 4;
+            }
+            else
+            {
+                vida = 2;
+            }
+        }
+        else if (estiloEnemigo == EstiloEnemigo.Rapido)
+        {
+            if (tipoEnemigo == TipoEnemigo.Planta)
+            {
+                vida = 2;
+            }
+            else
+            {
+                vida = 1;
+            }
+        }
+        else
+        {
+            if(tipoEnemigo == TipoEnemigo.Planta)
+            {
+                vida = 20;
+            }
+            else
+            {
+                vida = 10;
+            }
+        }
+        oroQueDa = 2;
+    }
+
     void AjustarEstadicticasDeElite()
     {
         if(estiloEnemigo == EstiloEnemigo.Fuerte)
         {
             daño *= 2;
             vida *= 2;
-            oroQueDa *= 3;
+            oroQueDa *= 2;
             InvokeRepeating("IniciarHabilidadInvulnerabilidad", tiempoCargaHabilidad, tiempoCargaHabilidad);
         }
         else if(estiloEnemigo == EstiloEnemigo.Rapido)
         {
             vida *= 2;
             velocidad *= 1.25f;
-            oroQueDa *= 3;
+            oroQueDa *= 2;
             InvokeRepeating("IniciarHabilidadDash", tiempoCargaHabilidad, tiempoCargaHabilidad);
         }
         else
         {
-            distanciaCambioPunto = 1.015f;
+            transform.localPosition += new Vector3(0,1,0);
+            distanciaCambioPunto = 1.0015f;
             daño *= 2;
             vida *= 2;
             velocidad /= 2;
-            oroQueDa *= 3;
+            oroQueDa *= 2;
             Invoke("IniciarHabilidadTanque",0);
         }
     }
@@ -113,6 +154,7 @@ public class Enemigo : MonoBehaviour
             DarOro();
             gameController.puntos++;
             gameController.enemigosEnEscena--;
+            audioController.Gritar();
             Destroy(gameObject);
         }
     }
@@ -146,7 +188,6 @@ public class Enemigo : MonoBehaviour
         colorMaterial.a = 1f;
         myRenderer.material.color = colorMaterial;
         myCollider.enabled = true;
-        print("pp");
         StopCoroutine("Invulnerable");
     }
 

@@ -8,6 +8,9 @@ public class GameController : MonoBehaviour
 {
     [Header("Puntos Ganados")]
     public int puntos;
+    public int puntosMaximos;
+    [SerializeField]
+    Text puntuacion;
     //Panel comprar torretas
     Animator animacionPanelTorretas;
     //Panel levelUp torretas
@@ -109,6 +112,7 @@ public class GameController : MonoBehaviour
     LayerMask _bases;
     void Start()
     {
+        puntosMaximos = PlayerPrefs.GetInt("puntos");
         identificadorDeTorretas = -1;
         DarValorAlasTorretas();
         animacionPanelTorretas = GameObject.Find("PanelTorretas").GetComponent<Animator>();
@@ -135,6 +139,15 @@ public class GameController : MonoBehaviour
         RecuentoDeVidaYDefensa();
         ValorDefensa();
         ActualizarOro();
+        puntuacion.text = puntos.ToString();
+        if(puntosMaximos < puntos)
+        {
+            PlayerPrefs.SetInt("puntos", puntos);
+        }
+        if(castilloJugador.vida <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     void Estados()
@@ -184,7 +197,7 @@ public class GameController : MonoBehaviour
         }
         else if(castilloJugador.defensa >= 100)
         {
-            valorDefensor = oro + 2;
+            valorDefensor = oro + 10000;
             textoValorDefensor.text = "∞∞";
         }
         else
@@ -367,7 +380,7 @@ public class GameController : MonoBehaviour
             if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().decirNivel == NivelTorreta.Nivel4)
             {
                 textoPrecioSubirNivel.text = "∞∞";
-                precioFinalSubirNivel = oro + 2;
+                precioFinalSubirNivel = oro + 10000;
             }
         }
         if (torretasEnEscena[mirarIdentificador].GetComponent<Torretas>().tipo == TipoTorreta.Multiple)
@@ -550,3 +563,4 @@ public class GameController : MonoBehaviour
 public enum TipoTorreta { Simple, Multiple, Soplete, Escarcha };
 public enum NivelTorreta { Nivel1, Nivel2, Nivel3, Nivel4 };
 public enum EstiloEnemigo { Fuerte, Rapido, Tanque};
+public enum TipoEnemigo { Fuego, Agua, Planta}

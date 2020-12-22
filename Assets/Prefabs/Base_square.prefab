@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colocando: 0
-  baseDisponible: {fileID: 0}
+  baseDisponible: {fileID: 2100000, guid: 7687f331b45de03469089240790f1c2d, type: 2}
   baseOcupada: {fileID: 2100000, guid: d860853c34bad514aab4be11a39a29c8, type: 2}
   disponible: 0
   distanciaDetectarTorreta: 1
@@ -152,7 +152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2731671452433868856
 Transform:
   m_ObjectHideFlags: 0

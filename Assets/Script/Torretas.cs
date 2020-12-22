@@ -102,9 +102,9 @@ public class Torretas : MonoBehaviour
         }
         if(objetivo[0] == null || enemigosEnRango[0] == null || _enemigos[0] == null)
         {
-            objetivo.Remove(objetivo[0]);
-            enemigosEnRango.Remove(enemigosEnRango[0]);
-            _enemigos.Remove(_enemigos[0]);
+            objetivo.Clear();
+            enemigosEnRango.Clear();
+            _enemigos.Clear();
             return;
         }
         if(nivel != nivelActual)
@@ -279,8 +279,12 @@ public class Torretas : MonoBehaviour
             for (int i = 0; i < objetivo.Count; i++)
             {
                 bala.gameObject.GetComponent<Bala>().daño = daño;
-                bala.gameObject.GetComponent<Bala>().objetivo = objetivo[i];
-                Instantiate(bala, cañon.position, Quaternion.identity);
+                if(objetivo[i] != null)
+                {
+                    bala.gameObject.GetComponent<Bala>().objetivo = objetivo[i];
+                    Instantiate(bala, cañon.position, Quaternion.identity);
+                }
+                else { return; }
             }
         }
         else
@@ -288,8 +292,12 @@ public class Torretas : MonoBehaviour
             for (int i = 0; i < enemigosMaximos; i++)
             {
                 bala.gameObject.GetComponent<Bala>().daño = daño;
-                bala.gameObject.GetComponent<Bala>().objetivo = objetivo[i];
-                Instantiate(bala, cañon.position, Quaternion.identity);
+                if (objetivo[i] != null)
+                {
+                    bala.gameObject.GetComponent<Bala>().objetivo = objetivo[i];
+                    Instantiate(bala, cañon.position, Quaternion.identity);
+                }
+                else { return; }
             }
         }
     }

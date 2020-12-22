@@ -111,7 +111,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 16
+  m_Constraints: 20
   m_CollisionDetection: 1
 --- !u!114 &77874591485263129
 MonoBehaviour:
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   estiloEnemigo: 0
+  tipoEnemigo: 0
   elite: 0
   tiempoQueDuraHabilidad: 2
   tiempoCargaHabilidad: 5
@@ -142,8 +143,9 @@ MonoBehaviour:
   "da\xF1o": 4
   vida: 2
   velocidad: 0.5
+  duracionRelentizado: 0
   distanciaCambioPunto: 0.1
-  oroQueDa: 5
+  oroQueDa: 2
 --- !u!1 &356411432972902987
 GameObject:
   m_ObjectHideFlags: 0
