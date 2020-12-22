@@ -146,7 +146,7 @@ public class GameController : MonoBehaviour
         }
         if(castilloJugador.vida <= 0)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(3);
         }
     }
 
